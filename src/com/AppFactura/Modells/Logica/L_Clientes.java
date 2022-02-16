@@ -8,8 +8,6 @@ package com.AppFactura.Modells.Logica;
 import com.AppFactura.Config.Conexion;
 import com.AppFactura.Config.controlador;
 import com.AppFactura.Modells.Entidades.Clientes_E;
-import com.AppFactura.Modells.Entidades.Personas_E;
-import com.sun.jdi.connect.spi.Connection;
 import java.util.ArrayList;
 
 /**
@@ -180,5 +178,11 @@ listaClientes.add(clientes);
 } catch (Exception e) {}finally{conexion.cerrarBD();}
 return listaClientes;
 }
- 
+
+public String getCliente(Clientes_E cliente){
+String Query ="select fc_getCliente(?) as Cliente;";
+String Cliente = control.getDato(Query, 1, cliente.getDocumento());
+return  Cliente;
+}
+
 }

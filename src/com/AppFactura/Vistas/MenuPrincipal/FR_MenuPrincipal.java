@@ -5,15 +5,27 @@
  */
 package com.AppFactura.Vistas.MenuPrincipal;
 
+import com.AppFactura.Personalizaciones.Ajustes;
 import com.AppFactura.Vistas.Clientes.FR_Add_Clientes;
 import com.AppFactura.Vistas.Clientes.FR_Lista_Clientes;
+import com.AppFactura.Vistas.Compras.FR_Ingreso_Productos;
+import com.AppFactura.Vistas.Login.FR_Login;
+import com.AppFactura.Vistas.Productos.FR_Add_Productos;
+import com.AppFactura.Vistas.Productos.FR_Lista_Productos;
+import com.AppFactura.Vistas.Proveedores.FR_Add_Proveedores;
+import com.AppFactura.Vistas.Proveedores.FR__Lista_Proveedores;
+import com.AppFactura.Vistas.Usuarios.FR_Add_Usuarios;
+import com.AppFactura.Vistas.Ventas.FR_Ventas;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Adrian
  */
 public class FR_MenuPrincipal extends javax.swing.JFrame {
-
+    Ajustes confins = new Ajustes();
+    public static String NameUsuario;
+    public static String USUARIOCONECT;
     /**
      * Creates new form FR_MenuPrinciapl
      */
@@ -22,6 +34,7 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
     }
    private void iniciarSistema(){
    this.setExtendedState(MAXIMIZED_BOTH);setLocationRelativeTo(null);
+     
    }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,16 +91,31 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/adduser.png"))); // NOI18N
         jMenuItem2.setText("Usuarios");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator2);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/productos.png"))); // NOI18N
         jMenuItem3.setText("Productos");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
         jMenu1.add(jSeparator6);
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/provedorr.png"))); // NOI18N
         jMenuItem9.setText("Proveedores");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem9);
 
         jMenuBar1.add(jMenu1);
@@ -110,16 +138,31 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/usuario.png"))); // NOI18N
         jMenuItem5.setText("Usuarios");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
         jMenu2.add(jSeparator4);
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/productos.png"))); // NOI18N
         jMenuItem6.setText("Productos");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
         jMenu2.add(jSeparator7);
 
         jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/provedorr.png"))); // NOI18N
         jMenuItem10.setText("Proveedores");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem10);
 
         jMenuBar1.add(jMenu2);
@@ -132,11 +175,21 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/ventas.png"))); // NOI18N
         jMenuItem7.setText("Nueva Venta");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
         jMenu3.add(jSeparator5);
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/AppFactura/Imagenes/CAMION.png"))); // NOI18N
         jMenuItem8.setText("Compras");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu3);
@@ -146,6 +199,11 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
         jMenu4.setText("Cerrar ");
         jMenu4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenu4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -171,8 +229,55 @@ public class FR_MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
        FR_Lista_Clientes clienteLista = new FR_Lista_Clientes(this, rootPaneCheckingEnabled);
+       confins.HiddenColumnTable(FR_Lista_Clientes.tablaClientes, 5);
        clienteLista.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+     FR_Add_Productos productos = new FR_Add_Productos(this, rootPaneCheckingEnabled);
+     productos.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+    dispose();
+    FR_Login login = new FR_Login();
+    login.setVisible(true);
+    }//GEN-LAST:event_jMenu4MouseClicked
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    FR_Lista_Productos productosCatalogo = new FR_Lista_Productos(this, rootPaneCheckingEnabled);
+    productosCatalogo.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+     FR_Add_Usuarios usuariosAdd = new FR_Add_Usuarios(this, rootPaneCheckingEnabled);
+     usuariosAdd.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+     FR_Add_Proveedores provedorAdd = new FR_Add_Proveedores(this, rootPaneCheckingEnabled);
+     provedorAdd.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+     FR_Ingreso_Productos ingresoProductos = new FR_Ingreso_Productos(this, rootPaneCheckingEnabled);
+     ingresoProductos.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+    FR__Lista_Proveedores proveedorView = new FR__Lista_Proveedores(this, rootPaneCheckingEnabled);
+    confins.HiddenColumnTable(FR__Lista_Proveedores.TablaProveedores,7);
+    proveedorView.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+     
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+       FR_Ventas ventas = new FR_Ventas(this, rootPaneCheckingEnabled);
+       ventas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments

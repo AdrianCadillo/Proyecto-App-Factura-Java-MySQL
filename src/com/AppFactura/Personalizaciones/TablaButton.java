@@ -7,6 +7,7 @@ package com.AppFactura.Personalizaciones;
 
 import java.awt.Component;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -21,6 +22,12 @@ public class TablaButton extends DefaultTableCellRenderer{
      if(value instanceof JButton){
       JButton boton=(JButton)value;  
       return boton;
+     }
+     
+     if(value instanceof JLabel){
+      JLabel labelImagen=(JLabel)value;  
+      labelImagen.setHorizontalAlignment((int)CENTER_ALIGNMENT);
+      return labelImagen;
      }
      return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
     }

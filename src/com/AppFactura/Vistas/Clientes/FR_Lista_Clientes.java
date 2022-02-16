@@ -7,6 +7,7 @@ package com.AppFactura.Vistas.Clientes;
 
 import com.AppFactura.Controllers.ClientesDao;
 import com.AppFactura.Personalizaciones.Ajustes;
+import com.AppFactura.Vistas.Ventas.FR_Ventas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,11 +27,14 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
     public static String documento;
     Point p; int x,y;
     public static ButtonRound botonEditar=new ButtonRound();
+    public static ButtonRound botonSelect=new ButtonRound();
     public FR_Lista_Clientes(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
-    initComponents();botonEditar.setText("Editar");
+    initComponents();botonEditar.setText("Editar");botonSelect.setText("Enviar");
     botonEditar.setName("be");
     botonEditar.setBackground(Color.yellow);
+    botonSelect.setName("bs");
+    botonSelect.setBackground(Color.green);
     modelCliente =(DefaultTableModel) tablaClientes.getModel();
     tablaClientes.setModel(modelCliente);
     initListaApp();
@@ -47,7 +51,7 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
       configuraciones.BuscarSorterTable(modelCliente, tablaClientes, txtBuscadorClientes);
   }
   private void mostrarClientesDato(){
-  daoCliente.mostrarClientes(modelCliente, tablaClientes, botonEditar);
+  daoCliente.mostrarClientes(modelCliente, tablaClientes, botonEditar,botonSelect);
   }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -111,7 +115,7 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 720, Short.MAX_VALUE)
                 .addComponent(lblsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -142,9 +146,17 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Documento", "Cliente", "Dirección", "Correo", "Editar"
+                "Documento", "Cliente", "Dirección", "Correo", "Editar", "Seleccionar"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaClientesMouseClicked(evt);
@@ -156,6 +168,7 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
             tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(300);
             tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(300);
             tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(230);
+            tablaClientes.getColumnModel().getColumn(5).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -167,7 +180,7 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBuscadorClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(475, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
@@ -186,7 +199,9 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,9 +244,9 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_lblsalirMouseClicked
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+     filaSeleccionado = tablaClientes.getSelectedRow();
      try {
      if(configuraciones.BotonDinamico(tablaClientes, evt).getName().equals("be")){
-     filaSeleccionado = tablaClientes.getSelectedRow();
       documento =tablaClientes.getValueAt(filaSeleccionado, 0).toString();
       FR_Add_Clientes clienteAdd = new FR_Add_Clientes(null, rootPaneCheckingEnabled);
       FR_Add_Clientes.btnRegistrar.setText("Guardar Cambios");
@@ -240,6 +255,13 @@ public class FR_Lista_Clientes extends javax.swing.JDialog {
       daoCliente.ListarPorDocumento(documento,FR_Add_Clientes.txtDocumento,FR_Add_Clientes.txtApellidos, 
          FR_Add_Clientes.txtNombres,FR_Add_Clientes.txtDireccion,FR_Add_Clientes.txtEmail);
       clienteAdd.setVisible(true);
+     }else{
+     if(configuraciones.BotonDinamico(tablaClientes, evt).getName().equals("bs")){
+     String ClienteName = tablaClientes.getValueAt(filaSeleccionado, 1).toString();
+     String ClienteDocumento = tablaClientes.getValueAt(filaSeleccionado, 0).toString();
+     FR_Ventas.lblCliente.setText(ClienteDocumento);
+     dispose();
+     }
      }    
      } catch (Exception e) {
      }

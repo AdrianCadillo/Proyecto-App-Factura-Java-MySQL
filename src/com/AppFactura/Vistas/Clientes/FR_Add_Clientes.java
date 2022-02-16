@@ -281,7 +281,7 @@ private void initApp(){
         /// modificar los clientes
         daoClientes.modifyClientes(doc, lastName, name, address, email,FR_Lista_Clientes.documento);
         daoClientes.mostrarClientes(FR_Lista_Clientes.modelCliente, FR_Lista_Clientes.tablaClientes,
-        FR_Lista_Clientes.botonEditar);   
+        FR_Lista_Clientes.botonEditar,FR_Lista_Clientes.botonSelect);   
         dispose();
         } 
         }

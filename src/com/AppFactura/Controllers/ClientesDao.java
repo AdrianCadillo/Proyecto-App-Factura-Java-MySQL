@@ -9,7 +9,10 @@ import com.AppFactura.Modells.Entidades.Clientes_E;
 import com.AppFactura.Modells.Logica.L_Clientes;
 import com.AppFactura.Personalizaciones.Ajustes;
 import com.AppFactura.Personalizaciones.TablaButton;
+import com.AppFactura.Vistas.Clientes.FR_Add_Clientes;
+import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -49,12 +52,13 @@ JOptionPane.showMessageDialog(null, "Error al reigstrar cliente, intentelo nueva
  * @param mdt 
  */
 public void mostrarClientes(DefaultTableModel mdt,JTable tabla,
-ButtonRound botonEditar){
+ButtonRound botonEditar,ButtonRound botonSelect){
+configuraciones.clearTable(mdt);
 tabla.setDefaultRenderer(Object.class, new TablaButton());
 ArrayList<Clientes_E> clientesDato=clientes.viewClientes(entidadCliente);
 for(Clientes_E cliente:clientesDato){
 Object datos[]={cliente.getDocumento(),cliente.getApellidos()+" "+cliente.getNombres(),
-cliente.getDireccion(),cliente.getCorreoElectronico(),botonEditar};  
+cliente.getDireccion(),cliente.getCorreoElectronico(),botonEditar,botonSelect};  
 mdt.addRow(datos);
 }
 }
@@ -90,5 +94,34 @@ JOptionPane.showMessageDialog(null, "Error al modificar cliente, intentelo nueva
 "Error ):",JOptionPane.ERROR_MESSAGE);
 }
 }  
+/**
+ * Mostrar cliente por documento
+ * @param labResultado
+ * @param documento 
+ */
+   public void find(JLabel labResultado,String documento){
+   if(documento.trim().length()>0 && (documento.trim().length()!=8 && documento.trim().length()<11)){
+   labResultado.setText("Buscando...");
+   labResultado.setForeground(Color.orange);
+   }else{
+   if(documento.trim().length()==0){
+   labResultado.setText("");
+   }else{
+   entidadCliente.setDocumento(documento);
+   String Data = clientes.getCliente(entidadCliente);
+   if(Data.equals("Error")){
+     labResultado.setText("¡NO EXISTE CLIENTE!");  
+     labResultado.setForeground(Color.red);
+     FR_Add_Clientes clienteFr = new FR_Add_Clientes(null, true);
+     FR_Add_Clientes.txtDocumento.setText(documento);
+     FR_Add_Clientes.txtApellidos.grabFocus();
+     clienteFr.setVisible(true);
+   }else{
+    labResultado.setText(Data);
+    labResultado.setForeground(Color.blue);
+   }  
+   } 
+   }
+   }
 
 }
